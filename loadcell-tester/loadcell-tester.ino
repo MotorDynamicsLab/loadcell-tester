@@ -51,7 +51,12 @@ void setup(void) {
 
 void loop() {
   bool isEncPressed = panel.checkEncBtn();
-  int change = panel.checkRotaryEnc();
+  //int change = panel.checkRotaryEnc();
+
+  if (isEncPressed)
+  {
+    scale.tare();
+  }
 
   sampleLoadcell();
 }
@@ -102,8 +107,10 @@ void lcdSetup()
   panel.tft.setCursor(0, settingLine0);
   panel.tft.println("Loadcell Value: ");
 
-  panel.tft.setCursor(0, 130);
-  panel.tft.println("Press Kill to restart!");
+  panel.tft.setCursor(0, 160);
+  panel.tft.println("Press [Enc] to tare");
+  panel.tft.setCursor(0, 160 + settingLineHeight);
+  panel.tft.println("Press [Kill] to restart");
   delay(500);
   updateDisplay();
 }
