@@ -22,8 +22,8 @@ const int BTN_ENC2 = 33;
 const int KILL_PIN = 41;
 const int BEEPER_PIN = 42;
 
-const int LOADCELL_DOUT_PIN = 2;
-const int LOADCELL_SCK_PIN = 3;
+const int LOADCELL_DOUT_PIN = 20;
+const int LOADCELL_SCK_PIN = 21;
 
 ControlPanel28 panel = ControlPanel28(TFT_CS, TFT_DC, TFT_RST, BTN_ENC, BTN_ENC1, BTN_ENC2, KILL_PIN, BEEPER_PIN);
 
@@ -36,7 +36,7 @@ const int settingLine2 = settingFirstLinePos + settingLineHeight * 2;
 
 //App global variables
 const unsigned long samplePeriodMs = 400;
-int loadcellVal = 0;
+float loadcellVal = 0;
 unsigned long lastSampleMs = 0;
 void killPressed();
 HX711 scale;
@@ -45,6 +45,8 @@ void setup(void) {
   panel.init(killPressed);
   lcdSetup();
   scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
+  scale.set_scale(1.0f);
+  scale.tare();
 }
 
 void loop() {
@@ -57,11 +59,10 @@ void loop() {
 void sampleLoadcell()
 {
   unsigned long nowMillis = millis();
-
   if (nowMillis - lastSampleMs > samplePeriodMs)
   {
     lastSampleMs = nowMillis;
-    loadcellVal = scale.read();
+    loadcellVal = 0.001f * scale.get_value(1);
     updateDisplay();
   }
 }
