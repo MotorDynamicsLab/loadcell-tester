@@ -68,10 +68,21 @@ void sampleLoadcell()
 }
 
 void updateDisplay() {
-  panel.tft.setTextSize(2);
-  panel.tft.setTextColor(ST77XX_CYAN, ST77XX_BLACK);
+  panel.tft.setTextSize(4);
+  if (loadcellVal > 10.0f)
+  {
+    panel.tft.setTextColor(ST77XX_GREEN, ST77XX_BLACK);
+  }
+  else if (loadcellVal < -10.0f)
+  {
+    panel.tft.setTextColor(ST77XX_RED, ST77XX_BLACK);
+  }
+  else
+  {
+    panel.tft.setTextColor(ST77XX_WHITE, ST77XX_BLACK);
+  }
 
-  panel.tft.setCursor(190, settingLine0);
+  panel.tft.setCursor(50, settingLine1 + 10);
   panel.tft.print(loadcellVal, 1);
   panel.tft.print("            ");
 }
