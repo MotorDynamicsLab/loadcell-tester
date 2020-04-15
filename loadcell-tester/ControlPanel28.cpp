@@ -66,9 +66,9 @@ int ControlPanel28::checkRotaryEnc()
   if ((lastEncAState == HIGH) && (encAState == LOW))
   {
     if (digitalRead(encBPin) == LOW)
-      changeVal = 1;
-    else
       changeVal = -1;
+    else
+      changeVal = 1;
   }
   
   lastEncAState = encAState;
